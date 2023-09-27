@@ -8,18 +8,44 @@
 
 // const $('form') = $("#movies-form");
 
+currId = 0;
+moviesList = [];
+
 $("#movies-form").on("submit", function (evt) {
   evt.preventDefault();
 
-  (
-    <tr>
-      <td>$('#movie-input').val()</td>
-      <td>$('#rating-input').val()</td>
-      <td>
-        <button>Delete</button>
-      </td>
-    </tr>
-  ).appendTo("#movies.list.container");
+  let movieInput = $("#movie-input").val();
+  let ratingInput = $("#rating-input").val();
+  let tableBody = $("#movies-list-container");
+
+  currId += 1;
+
+  moviesList.push({ currId, movieInput, ratingInput });
+
+  let tr = $("<tr>");
+  let td1 = $("<td>");
+  let td2 = $("<td>");
+  let td3 = $("<td>");
+
+  td1.append(movieInput);
+  td2.append(ratingInput);
+  td3.append("<button>Delete</button>");
+
+  tr.append(td1);
+  tr.append(td2);
+  tr.append(td3);
+  tr.addClass("row" + currId);
+
+  tableBody.append(tr);
 
   $("#movies-form").trigger("reset");
+});
+
+$("#movies-list-container").on("click", "button", function (evt) {
+  // remove it from the DOM
+  $(evt.target)
+    .closest("tr")
+    // searches up element tree
+    .remove();
+  // removes that element
 });
